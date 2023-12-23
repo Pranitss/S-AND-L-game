@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #result {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+
+    input {
+      padding: 5px;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 8px 15px;
+      font-size: 1em;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const minNumber = 1;
+      const maxNumber = 100;
+      const secretNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+      let attempts = 0;
+
+      const guessInput = document.getElementById('guess');
+      const resultDisplay = document.getElementById('result');
+      const submitButton = document.getElementById('submit');
+
+      submitButton.addEventListener('click', function () {
+        const userGuess = parseInt(guessInput.value);
+
+        if (isNaN(userGuess) || userGuess < minNumber || userGuess > maxNumber) {
+          alert('Please enter a valid number between ' + minNumber + ' and ' + maxNumber + '.');
+        } else {
+          attempts++;
+
+          if (userGuess === secretNumber) {
+            resultDisplay.innerHTML = `Congratulations! You guessed the number ${secretNumber} in ${attempts} attempts.`;
+            resultDisplay.style.color = 'green';
+            guessInput.disabled = true;
+            submitButton.disabled = true;
+          } else {
+            const hint = userGuess < secretNumber ? 'higher' : 'lower';
+            resultDisplay.innerHTML = `Try again. The secret number is ${hint} than ${userGuess}.`;
+            resultDisplay.style.color = 'red';
+          }
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Guess the Number Game</h1>
+  <label for="guess">Enter your guess (between 1 and 100):</label>
+  <input type="number" id="guess" min="1" max="100" required>
+  <button id="submit">Submit Guess</button>
+  <div id="result"></div>
+</body>
+</html>
